@@ -1,28 +1,25 @@
+import { useCallback, useState } from "react"
+import  SettingsDialog  from "./components/settings-dailogue"
+// ✅ fix typo: dailogue -> dialogue
+
 import { ToastProvider } from "./providers/toast-provider"
 import { QueryProvider } from "./providers/query-provider"
-import { useToast } from "./providers/toast-context"
 import { WelcomeScreen } from "./components/welcome-screen"
 
-function ToastEX(): React.JSX.Element {
-  const { showToast } = useToast()
-
-  return (
-    <>
-      <h1
-        className="text-3xl font-bold cursor-pointer "
-        onClick={() => showToast("Hello!", "This is a toast from ToastEX", "success")}
-      >
-        Click me to show toast
-      </h1>
-    </>
-  )
-}
-
 function App(): React.JSX.Element {
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+
+  const handleSettingsOpenChange = useCallback((open: boolean) => {
+    setIsSettingsOpen(open)
+  }, [])
+
   return (
     <QueryProvider>
       <ToastProvider>
-         <WelcomeScreen/>
+        <div>
+          <WelcomeScreen onOpenSettings={handleSettingsOpenChange} />
+        </div>
+        <SettingsDialog open={isSettingsOpen} onOpenChange={handleSettingsOpenChange} />
       </ToastProvider>
     </QueryProvider>
   )
