@@ -1,34 +1,30 @@
-import Versions from './components/Versions'
-import electronLogo from './assets/electron.svg'
+import { ToastProvider } from "./providers/toast-provider"
+import { QueryProvider } from "./providers/query-provider"
+import { useToast } from "./providers/toast-context"
+import { WelcomeScreen } from "./components/welcome-screen"
 
-function App(): React.JSX.Element {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+function ToastEX(): React.JSX.Element {
+  const { showToast } = useToast()
 
   return (
     <>
-      <img alt="logo" className="logo" src={electronLogo} />
-      <div className="creator">Powered by electron-vite</div>
-      <div className="text">
-        Build an Electron app with <span className="react">React</span>
-        &nbsp;and <span className="ts">TypeScript</span>
-      </div>
-      <p className="tip">
-        Please try pressing <code>F12</code> to open the devTool
-      </p>
-      <div className="actions">
-        <div className="action">
-          <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
-            Documentation
-          </a>
-        </div>
-        <div className="action">
-          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
-            Send IPC
-          </a>
-        </div>
-      </div>
-      <Versions></Versions>
+      <h1
+        className="text-3xl font-bold cursor-pointer "
+        onClick={() => showToast("Hello!", "This is a toast from ToastEX", "success")}
+      >
+        Click me to show toast
+      </h1>
     </>
+  )
+}
+
+function App(): React.JSX.Element {
+  return (
+    <QueryProvider>
+      <ToastProvider>
+         <WelcomeScreen/>
+      </ToastProvider>
+    </QueryProvider>
   )
 }
 
