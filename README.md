@@ -1,4 +1,6 @@
-# npm
+# Clueless
+
+Tried building this in a 8-hour hackathon, could not finish it but here it is, in this repo I tried to reverse-engineer Cluely (but only for leetcode-style interviews), only thing you need to input is OpenAI/Gemini's API key
 
 An Electron application with React and TypeScript
 
