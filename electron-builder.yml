@@ -1,4 +1,4 @@
-appId: com.electron.app
+appId: com.clueless
 productName: npm
 directories:
   buildResources: build
@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: npm
+  executableName: clueless
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
@@ -39,5 +39,7 @@ appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
-  provider: generic
-  url: https://example.com/auto-updates
+  provider: github
+  owner: vivekchavan14
+  repo: clueless
+  releaseType: release
