@@ -272,46 +272,72 @@ function moveWindowVertical(updateFn: (y: number) => number): void {
 }
 
 function hideMainWindow(): void {
-  if (!state.mainWindow?.isDestroyed()) {
-    const bounds = state.mainWindow?.getBounds()
-    if (!bounds) return
-    state.windowPosition = { x: bounds.x, y: bounds.y }
-    state.windowSize = { width: bounds.width, height: bounds.height }
-    state.mainWindow?.setIgnoreMouseEvents(true, { forward: true })
-    state.mainWindow?.setOpacity(0)
-    state.isWindowVisible = false
-    console.log('Hiding main window')
+  console.log('🧩 hideMainWindow triggered')
+
+  if (!state.mainWindow || state.mainWindow.isDestroyed()) {
+    console.warn('⚠️ Cannot hide window: not initialized or destroyed.')
+    return
   }
+
+  const bounds = state.mainWindow.getBounds()
+  state.windowPosition = { x: bounds.x, y: bounds.y }
+  state.windowSize = { width: bounds.width, height: bounds.height }
+
+  state.mainWindow.setIgnoreMouseEvents(true, { forward: true })
+  state.mainWindow.setOpacity(0)
+  state.mainWindow.hide() // <-- Add this to fully hide window
+
+  state.isWindowVisible = false
+  console.log('✅ Window hidden: opacity 0 and mouse ignored')
 }
 
+
 function showMainWindow(): void {
-  if (!state.mainWindow?.isDestroyed()) {
-    if (state.windowPosition && state.windowSize) {
-      state?.mainWindow?.setBounds({
-        ...state.windowPosition,
-        ...state.windowSize
-      })
-    }
-    state.mainWindow?.setIgnoreMouseEvents(false)
-    state.mainWindow?.setAlwaysOnTop(true, 'screen-saver', 1)
-    state.mainWindow?.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
-    state.mainWindow?.setContentProtection(true)
-    state.mainWindow?.setOpacity(0)
-    state.mainWindow?.showInactive()
-    state.mainWindow?.setOpacity(1)
-    state.isWindowVisible = true
-    console.log('Showing main window')
+  console.log('🧩 showMainWindow triggered')
+
+  if (!state.mainWindow || state.mainWindow.isDestroyed()) {
+    console.warn('⚠️ Cannot show window: not initialized or destroyed.')
+    return
   }
+
+  if (state.windowPosition && state.windowSize) {
+    state.mainWindow.setBounds({
+      ...state.windowPosition,
+      ...state.windowSize
+    })
+  }
+
+  state.mainWindow.setIgnoreMouseEvents(false)
+  state.mainWindow.setAlwaysOnTop(true, 'screen-saver', 1)
+  state.mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
+  state.mainWindow.setContentProtection(true)
+
+  // Avoid flicker
+  state.mainWindow.setOpacity(0)
+  state.mainWindow.showInactive()
+
+  setTimeout(() => {
+    if (!state.mainWindow?.isDestroyed()) {
+      state.mainWindow.setOpacity(1)
+    }
+  }, 100)
+
+  state.isWindowVisible = true
+  console.log('✅ Window shown and interactive again')
 }
 
 function toggleMainWindow(): void {
-  console.log('Toggling main window')
+  console.log('🔁 toggleMainWindow called. Current visible:', state.isWindowVisible)
+
   if (state.isWindowVisible) {
     hideMainWindow()
   } else {
     showMainWindow()
   }
+
+  console.log('🟢 New visibility state:', state.isWindowVisible)
 }
+
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getProblemInfo(): any {
