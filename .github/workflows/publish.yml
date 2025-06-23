@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest] # <-- Windows and Linux
+        os: [windows-latest, ubuntu-latest]
 
     steps:
       - name: Check out Git repository
@@ -29,26 +29,49 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Windows build and publish
+      # Optional: cache node_modules for speed (uncomment if needed)
+      # - name: Cache node_modules
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ~/.npm
+      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-node-
+
+      # Linux-specific fixes
+      - name: Install Linux build dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libarchive-tools fakeroot rpm \
+            libx11-dev libxss1 libasound2 \
+            libnss3 libxkbfile-dev
+
+      - name: Make app-builder executable (Linux only)
+        if: matrix.os == 'ubuntu-latest'
+        run: chmod +x ./node_modules/app-builder-bin/linux/x64/app-builder
+
+      # Build and Publish for Windows
       - name: Build and Publish (Windows)
         if: matrix.os == 'windows-latest'
         uses: nick-fields/retry@v2
         with:
           timeout_minutes: 45
           max_attempts: 3
-          command: npm run build:win -- --publish always
+          command: npm run build:win -- --publish onTag
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEBUG: electron-builder
 
-      # Linux build and publish
+      # Build and Publish for Linux
       - name: Build and Publish (Linux)
         if: matrix.os == 'ubuntu-latest'
         uses: nick-fields/retry@v2
         with:
           timeout_minutes: 45
           max_attempts: 3
-          command: npm run build:linux -- --publish always
+          command: npm run build:linux -- --publish onTag
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEBUG: electron-builder
