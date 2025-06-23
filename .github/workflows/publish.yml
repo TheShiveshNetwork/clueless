@@ -29,26 +29,18 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Optional: cache node_modules for speed (uncomment if needed)
-      # - name: Cache node_modules
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: ~/.npm
-      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-node-
-
-      # Linux-specific fixes
+      # Linux-specific build dependencies (fixed for Ubuntu 24.04)
       - name: Install Linux build dependencies
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
           sudo apt-get install -y \
             libarchive-tools fakeroot rpm \
-            libx11-dev libxss1 libasound2 \
-            libnss3 libxkbfile-dev
+            libx11-dev libxss1 libnss3 libxkbfile-dev \
+            libasound2t64
 
-      - name: Make app-builder executable (Linux only)
+      # Fix app-builder execute permissions (Ubuntu)
+      - name: Make app-builder executable
         if: matrix.os == 'ubuntu-latest'
         run: chmod +x ./node_modules/app-builder-bin/linux/x64/app-builder
 
