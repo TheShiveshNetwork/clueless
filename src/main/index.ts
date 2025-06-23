@@ -318,7 +318,7 @@ function showMainWindow(): void {
 
   setTimeout(() => {
     if (!state.mainWindow?.isDestroyed()) {
-      state.mainWindow.setOpacity(1)
+      state.mainWindow?.setOpacity(1)
     }
   }, 100)
 
