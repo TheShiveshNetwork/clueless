@@ -4,6 +4,8 @@ Tried building this in a 8-hour hackathon, could not finish it but here it is, i
 
 Built with Electron, React, & Nodejs.
 
+Launched it on ProductHunt, check it here - [clueless](https://www.producthunt.com/products/clueless?launch=clueless)
+
 ## Recommended IDE Setup
 
 - [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
