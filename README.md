@@ -6,6 +6,8 @@ Built with Electron, React, & Nodejs.
 
 Launched it on ProductHunt, check it here - [clueless](https://www.producthunt.com/products/clueless?launch=clueless)
 
+Linux AppImage - [download for Linux](https://drive.google.com/file/d/1ePhRS0wqNfAGINoWHslegkVAT4hNjwzs/view?usp=sharing)
+
 
 ![Screenshot from 2025-06-23 18-06-53](https://github.com/user-attachments/assets/f7545eb7-c3d5-4a7c-a28f-7c6d0bda0d7c)
 
