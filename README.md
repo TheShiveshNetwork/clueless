@@ -18,6 +18,11 @@ Linux AppImage - [download for Linux](https://drive.google.com/file/d/1ePhRS0wqN
 ![Screenshot from 2025-06-23 17-16-12](https://github.com/user-attachments/assets/867240e1-f9e9-485a-98d4-3fa575a24ead)
 
 
+## License
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
+
+
 
 
 ## Recommended IDE Setup
